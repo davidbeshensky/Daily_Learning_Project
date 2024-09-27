@@ -72,7 +72,7 @@ printArray(Array);
 
       {/* Console Logs Output */}
       {consoleLogs.length > 0 && (
-        <div className="mt-4 p-4 bg-gray-100 text-gray-800 border border-gray-400 rounded">
+        <div className="mt-2 p-2 bg-gray-100 text-gray-800 border border-gray-400 rounded">
           <strong>Console Logs:</strong>
           <pre className="mt-2">{consoleLogs.join("\n")}</pre>
         </div>
