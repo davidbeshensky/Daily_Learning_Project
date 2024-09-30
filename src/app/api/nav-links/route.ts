@@ -14,7 +14,13 @@ export async function GET() {
     console.log('Directories found:', directories.map((d) => d.name));
 
     const projectLinks = directories
-      .filter((dirent) => dirent.isDirectory() && !dirent.name.startsWith('.'))
+      .filter(
+        (dirent) =>
+          dirent.isDirectory() &&
+          !dirent.name.startsWith('.') &&
+          !dirent.name.startsWith('[') &&
+          dirent.name !== 'data-structures' // Exclude 'data-structures' from automatic links
+      )
       .map((dirent) => ({
         name: dirent.name.replace(/-/g, ' '),
         path: `/projects/${dirent.name}`,
@@ -23,7 +29,6 @@ export async function GET() {
     navLinks = [...navLinks, ...projectLinks];
   } else {
     console.log('Projects directory does not exist.');
-
   }
 
   console.log('Navigation links:', navLinks);

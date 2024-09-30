@@ -1,5 +1,6 @@
 'use client';
 
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -53,6 +54,17 @@ export default function Header() {
               </Link>
             </li>
           ))}
+          {/* Add the Data Structures link manually */}
+          <li className="mr-4">
+            <Link
+              href="/components/data-structures"
+              className={`hover:underline ${
+                pathname === '/components/data-structures' ? 'font-bold text-blue-600' : ''
+              }`}
+            >
+              Data Structures
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
