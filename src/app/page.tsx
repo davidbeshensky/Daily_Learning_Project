@@ -7,7 +7,7 @@ export default function Home() {
       Welcome to my daily learning project! 
       </div>
       <div className="text-center p-5">
-        keep trying things and don't get discouraged 
+      keep trying things and don&apos;t get discouraged 
       </div>
 
     </div>

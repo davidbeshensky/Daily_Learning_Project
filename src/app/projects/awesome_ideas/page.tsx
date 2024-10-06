@@ -16,7 +16,7 @@ export default function AwesomeIdeas() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">My Next Project</h1>
-      <p className="mb-4">Here are some ideas I'd like to implement:</p>
+      <p className="mb-4">Here are some ideas I&apos;d like to implement:</p>
 
       <h2 className="text-xl font-semibold mb-2">Pending Ideas</h2>
       <ul className="list-disc pl-6 space-y-2">

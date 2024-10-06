@@ -6,7 +6,7 @@ const CodeRunner: React.FC = () => {
   const [code, setCode] = useState(`
 const Array = [1,2,3,4,5,6];
 
-const printArray = (array) => \`heres the array, \${array}\`;
+const printArray = (array) => \`Here's the array: \${array}\`;
 printArray(Array);
 
 //const greeting = (name) => \`Hello, \${name}!\`;
@@ -15,28 +15,29 @@ printArray(Array);
 
   const [output, setOutput] = useState<string | null>(null);
   const [consoleLogs, setConsoleLogs] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
 
   const runCode = () => {
-    setError(null);
     setConsoleLogs([]);
-
     const logs: string[] = [];
 
-    //capture console.log output
+    // Capture the original console.log
     const originalConsoleLog = console.log;
-    console.log = (...args: any[]) => {
-      logs.push(args.join(" "));
+    console.log = (...args: unknown[]) => {
+      logs.push(args.map(String).join(" "));
     };
 
     try {
       // eslint-disable-next-line no-eval
       const result = eval(code);
       setOutput(result ? result.toString() : "No output");
-    } catch (err: any) {
-      setOutput(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setOutput(err.message);
+      } else {
+        setOutput(String(err));
+      }
     } finally {
-      //restore the OG console.log
+      // Restore the original console.log
       console.log = originalConsoleLog;
       setConsoleLogs(logs);
     }
@@ -82,3 +83,4 @@ printArray(Array);
 };
 
 export default CodeRunner;
+

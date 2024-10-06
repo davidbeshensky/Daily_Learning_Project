@@ -17,7 +17,6 @@ const CharacterList = () => {
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
-        console.log(process.env.LOTR_API_KEY)
         setLoading(true);
         const response = await fetch('/api/the-one-api');
         
@@ -27,12 +26,14 @@ const CharacterList = () => {
 
         const data = await response.json();
         setCharacters(data);
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError(String(error));
+        }
       }
-    };
+    }
 
     fetchCharacters();
   }, []);

@@ -2,8 +2,7 @@
 import { NextResponse } from 'next/server';
 
 //const apiKey = 'VIpJPmCeja7wb8UvyO13'
-const apiKey = process.env.NEXT_PUBLIC_LOTR_API_KEY;
-console.log('LOTR API Key:', apiKey); // Add this line
+const apiKey = process.env.LOTR_API_KEY;
 // Function to fetch all characters
 const fetchAllCharacters = async () => {
   const url = 'https://the-one-api.dev/v2/character';

@@ -9,7 +9,7 @@ const examples = {
   object: <ObjectExample />,
   set: <p>Interactive Set Example</p>,
   map: <p>Interactive Map Example</p>,
-  // Add other data structures
+  // Add other data structures here
 };
 
 interface ExamplePageProps {
@@ -21,11 +21,12 @@ interface ExamplePageProps {
 export default function ExamplePage({ params }: ExamplePageProps) {
   const { structure } = params;
 
+  // Retrieve the example component
   const exampleComponent = examples[structure as keyof typeof examples];
 
+  // Handle case where structure is not found
   if (!exampleComponent) {
-    // If the structure is not found, display a 404 page
-    notFound();
+    return notFound(); // Trigger 404 if the structure is invalid
   }
 
   return (
