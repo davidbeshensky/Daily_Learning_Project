@@ -13,7 +13,6 @@ const ReactDocsExamples: React.FC = () => {
   const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
   };
-
   //this fullname variable doesn't make the whole page re-render like a useEffect might.
   const fullNameConst = firstName + " " + lastName;
 

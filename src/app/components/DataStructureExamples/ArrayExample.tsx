@@ -11,7 +11,7 @@ export default function ArrayExample() {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Array Example</h2>
       <p>Current Array: {JSON.stringify(array)}</p>
       <button
