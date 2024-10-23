@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import DataStructuresGrid from './data-structures/page';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import DataStructuresGrid from "./data-structures/page";
 
 interface NavLink {
   name: string;
@@ -15,15 +15,15 @@ interface NavLink {
 export default function Header() {
   const [navLinks, setNavLinks] = useState<NavLink[]>([]);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null); //tracking open dropdown
-  const [clickedLink, setClickedLink] = useState<boolean>(false);
+
   useEffect(() => {
     async function fetchNavLinks() {
       try {
-        const res = await fetch('/api/nav-links');
+        const res = await fetch("/api/nav-links");
         const data: NavLink[] = await res.json();
         setNavLinks(data);
       } catch (error) {
-        console.error('Error fetching navigation links:', error);
+        console.error("Error fetching navigation links:", error);
       }
     }
 
@@ -32,6 +32,10 @@ export default function Header() {
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown((prev) => (prev === name ? null : name));
+  };
+
+  const closeDropdown = () => {
+    setOpenDropdown(null);
   };
 
   if (!navLinks.length) {
@@ -44,6 +48,43 @@ export default function Header() {
       </header>
     );
   }
+
+  const dropdownVariants = {
+    hidden: {
+      opacity: 0,
+      y: -10,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        damping: 15,
+        stiffness: 120,
+        staggerChildren: 0.075,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        damping: 15,
+        stiffness: 150,
+      },
+    },
+  };
 
   return (
     <header className="border-b-2 p-4">
@@ -62,8 +103,12 @@ export default function Header() {
                   {link.name}
                 </button>
               ) : (
-                <Link className="hover:bg-slate-800 bg-slate-900 rounded-md px-4 py-3" href={link.path} passHref>
-                    {link.name}
+                <Link
+                  className="hover:bg-slate-800 bg-slate-900 rounded-md px-4 py-3"
+                  href={link.path}
+                  passHref
+                >
+                  {link.name}
                 </Link>
               )}
 
@@ -71,18 +116,26 @@ export default function Header() {
               <AnimatePresence>
                 {openDropdown === link.name && link.children && (
                   <motion.ul
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
+                    variants={dropdownVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
                     className="absolute left-0 mt-2 bg-slate-600 shadow-lg rounded-lg"
                   >
                     {link.children.map((child) => (
-                      <li key={child.path} className="px-4 py-2 text-slate-100">
-                        <Link className="hover:bg-slate-500 p-1 rounded" href={child.path}>
-                            {child.name}                       
+                      <motion.li
+                        key={child.path}
+                        variants={itemVariants}
+                        className="px-4 py-2 text-slate-100"
+                      >
+                        <Link
+                          className="hover:bg-slate-500 p-1 rounded"
+                          href={child.path}
+                          onClick={closeDropdown}
+                        >
+                          {child.name}
                         </Link>
-                      </li>
+                      </motion.li>
                     ))}
                   </motion.ul>
                 )}
@@ -91,10 +144,11 @@ export default function Header() {
           ))}
           {/* Manually entered Data Structures link */}
           <li className="mr-4">
-            <Link href="/components/data-structures"
-            className="hover:bg-slate-800 bg-slate-900 rounded-md px-4 py-3"
+            <Link
+              href="/components/data-structures"
+              className="hover:bg-slate-800 bg-slate-900 rounded-md px-4 py-3"
             >
-                Data Structures
+              Data Structures
             </Link>
           </li>
         </ul>

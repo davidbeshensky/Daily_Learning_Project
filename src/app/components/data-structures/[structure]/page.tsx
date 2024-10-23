@@ -2,6 +2,7 @@
 import { notFound } from "../../../../../node_modules/next/navigation";
 import ArrayExample from "../../DataStructureExamples/ArrayExample";
 import ArrayExample2 from "../../DataStructureExamples/ArrayExample2";
+import ArrayExample3 from "../../DataStructureExamples/ArrayExample3"
 import ObjectExample from "../../DataStructureExamples/ObjectExample";
 // Import other examples as needed
 
@@ -10,6 +11,7 @@ const examples = {
     <div>
       <ArrayExample /> 
       <ArrayExample2 />
+      <ArrayExample3 />
     </div>
   ),
   object: <ObjectExample />,

@@ -20,9 +20,9 @@ const ReactDocsExamples: React.FC = () => {
   //thus rebuilding the whole DOM
   //useMemo -> caching expensive calculations. basically don't re-run the filter unless these have changed.
   
-  // useEffect(() => {
-  //  setFullName(firstName + " " + lastName);
-  //  }, [firstName, lastName]);
+  useEffect(() => {
+   setFullName(firstName + " " + lastName);
+   }, [firstName, lastName]);
 
   //memoization is a optimization technique used primairly to speed up computer programs by storing the results of expensive function calls to pure functions and returing the cached result when the same inputs occur again. Its a type of caching.
 
