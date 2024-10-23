@@ -1,30 +1,64 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+
+interface DirectoryNode {
+  name: string;
+  path: string;
+  children?: DirectoryNode[];
+}
+
+function getDirectoryStructure(
+  dirPath: string,
+  parentPath: string = "/projects",
+  visitedPaths: Set<string> = new Set()
+): DirectoryNode[] {
+  // Prevent infinite recursion due to circular references or symlinks
+  if (visitedPaths.has(dirPath)) {
+    return []; // Stop recursion on this path but continue processing other branches
+  }
+  visitedPaths.add(dirPath);
+
+  const directories = fs.readdirSync(dirPath, { withFileTypes: true });
+
+  return directories
+    .filter((dirent) => dirent.isDirectory()) // Only include directories
+    .map((dirent) => {
+      const childPath = path.join(dirPath, dirent.name);
+      const fullPath = `${parentPath}/${dirent.name}`; // Build full path dynamically
+
+      return {
+        name: dirent.name.replace(/-/g, " "), // Format name for display
+        path: fullPath, // Link to the directory
+        children: getDirectoryStructure(childPath, fullPath, visitedPaths), // Recursively add child directories
+      };
+    });
+}
 
 export async function GET() {
   try {
-    const projectsDir = path.join(process.cwd(), 'src', 'app', 'projects');
-    console.log('Projects directory path:', projectsDir);
+    const projectsParentDir = path.join(
+      process.cwd(),
+      "src",
+      "app",
+      "projects"
+    );
+    let navStructure: DirectoryNode[] = [{ name: "Home", path: "/" }];
 
-    let navLinks = [{ name: 'Home', path: '/' }];
-
-    if (fs.existsSync(projectsDir)) {
-      const directories = fs.readdirSync(projectsDir, { withFileTypes: true });
-      const projectLinks = directories
-        .filter((dirent) => dirent.isDirectory()) // Ensure only directories are included
-        .map((dirent) => ({
-          name: dirent.name.replace(/-/g, ' '),
-          path: `/projects/${dirent.name}`,
-        }));
-
-      navLinks = [...navLinks, ...projectLinks];
+    if (fs.existsSync(projectsParentDir)) {
+      const projectFolders = getDirectoryStructure(projectsParentDir);
+      navStructure = [...navStructure, ...projectFolders];
+      console.log(JSON.stringify(navStructure, null, 2));
     } else {
-      console.log('Projects directory does not exist.');
+      console.log("Projects directory does not exist");
     }
 
-    return NextResponse.json(navLinks);
+    return NextResponse.json(navStructure);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to load projects' }, { status: 500 });
+    console.error("Error reading project folders:", error);
+    return NextResponse.json(
+      { error: "Failed to load projects" },
+      { status: 500 }
+    );
   }
 }
