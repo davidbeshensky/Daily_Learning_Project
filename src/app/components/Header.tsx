@@ -40,7 +40,7 @@ export default function Header() {
 
   if (!navLinks.length) {
     return (
-      <header className="bg-gray-400 p-4 flex justify-center items-center min-h-[100px]">
+      <header className="bg-gray-400 p-4 flex justify-center items-center">
         <div className="flex items-center space-x-2">
           <div className="w-4 h-4 border-4 border-blue-600 border-dashed rounded-full animate-spin"></div>
           <p className="text-blue-600">Loading navigation...</p>

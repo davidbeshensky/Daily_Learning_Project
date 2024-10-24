@@ -1,5 +1,5 @@
 "use client";
-import { count } from "console";
+
 import { useState } from "react";
 
 const PalindromeChecker = () => {
