@@ -8,6 +8,7 @@ interface DirectoryNode {
   children?: DirectoryNode[];
 }
 
+
 function getDirectoryStructure(
   dirPath: string,
   parentPath: string = "/projects",

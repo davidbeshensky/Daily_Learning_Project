@@ -1,6 +1,6 @@
+import Header from "./components/Header";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Header from "./components/Header";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -19,18 +19,52 @@ export const metadata: Metadata = {
   description: "A place to test things",
 };
 
-export default function RootLayout({
+interface NavLink {
+  name: string;
+  path: string;
+  children?: NavLink[];
+}
+
+async function fetchNavLinks(): Promise<NavLink[]> {
+  try {
+    // Ensure the base URL is properly set
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+    // Check if the base URL exists
+    if (!baseUrl) {
+      throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
+    }
+
+    const res = await fetch(`${baseUrl}/api/nav-links`, {
+      cache: 'no-store',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch navigation links');
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching navigation links:", error);
+    return [];
+  }
+}
+
+
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const navLinks = await fetchNavLinks(); // Fetch data before rendering
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <main className ="p-4">{children}</main>
+        <Header navLinks={navLinks} /> {/* Pass navLinks to Header */}
+        <main className="p-4">{children}</main>
       </body>
     </html>
   );

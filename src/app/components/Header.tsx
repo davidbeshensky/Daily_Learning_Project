@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import DataStructuresGrid from "./data-structures/page";
 
 interface NavLink {
   name: string;
@@ -12,23 +10,8 @@ interface NavLink {
   children?: NavLink[];
 }
 
-export default function Header() {
-  const [navLinks, setNavLinks] = useState<NavLink[]>([]);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null); //tracking open dropdown
-
-  useEffect(() => {
-    async function fetchNavLinks() {
-      try {
-        const res = await fetch("/api/nav-links");
-        const data: NavLink[] = await res.json();
-        setNavLinks(data);
-      } catch (error) {
-        console.error("Error fetching navigation links:", error);
-      }
-    }
-
-    fetchNavLinks();
-  }, []);
+export default function Header({ navLinks }: { navLinks: NavLink[] }) {
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown((prev) => (prev === name ? null : name));
@@ -92,7 +75,6 @@ export default function Header() {
         <ul className="flex list-none items-center">
           {navLinks.map((link) => (
             <li key={link.path} className="relative mr-4">
-              {/* Render parent link as button if it has children */}
               {link.children && link.children.length > 0 ? (
                 <button
                   onClick={() => toggleDropdown(link.name)}
@@ -106,13 +88,11 @@ export default function Header() {
                 <Link
                   className="hover:bg-slate-800 bg-slate-900 rounded-md px-4 py-3"
                   href={link.path}
-                  passHref
                 >
                   {link.name}
                 </Link>
               )}
 
-              {/* Dropdown for children */}
               <AnimatePresence>
                 {openDropdown === link.name && link.children && (
                   <motion.ul
@@ -142,7 +122,6 @@ export default function Header() {
               </AnimatePresence>
             </li>
           ))}
-          {/* Manually entered Data Structures link */}
           <li className="mr-4">
             <Link
               href="/components/data-structures"
