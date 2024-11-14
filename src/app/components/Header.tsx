@@ -38,20 +38,20 @@ export default function Header({ navLinks }: { navLinks: NavLink[] }) {
       y: -10,
     },
     visible: {
-      opacity: 1,
+      opacity: 1.0,
       y: 0,
       transition: {
         type: "spring",
-        damping: 15,
+        damping: 30,
         stiffness: 120,
-        staggerChildren: 0.075,
+        staggerChildren: 0.025,
       },
     },
     exit: {
       opacity: 0,
       y: -10,
       transition: {
-        duration: 0.2,
+        duration: 0.1,
       },
     },
   };
