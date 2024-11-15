@@ -6,6 +6,7 @@ const dataStructures = [
   { name: 'Object', structure: 'object' },
   { name: 'Set', structure: 'set' },
   { name: 'Map', structure: 'map' },
+  { name: 'Linked List', structure: 'linkedlist'}
   // Add more data structures as needed
 ];
 

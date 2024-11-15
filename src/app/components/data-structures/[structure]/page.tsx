@@ -5,7 +5,8 @@ import ArrayExample2 from "../../DataStructureExamples/ArrayExample2";
 import ArrayExample3 from "../../DataStructureExamples/ArrayExample3";
 import ArrayExample4 from "../../DataStructureExamples/ArrayExample4";
 import ArrayExample5 from "../../DataStructureExamples/ArrayExample5";
-import ArrayExample6 from "../../DataStructureExamples/ArrayExample6"
+import ArrayExample6 from "../../DataStructureExamples/ArrayExample6";
+import LinkedListExample from "../../DataStructureExamples/LinkedListExample";
 import ObjectExample from "../../DataStructureExamples/ObjectExample";
 // Import other examples as needed
 
@@ -17,11 +18,17 @@ const examples = {
       <ArrayExample3 />
       <ArrayExample4 />
       <ArrayExample5 />
-      <ArrayExample6 /> 
-    </div>),
+      <ArrayExample6 />
+    </div>
+  ),
   object: <ObjectExample />,
   set: <p>Interactive Set Example</p>,
   map: <p>Interactive Map Example</p>,
+  linkedlist: (
+    <div>
+      <p>interactive LinkedList example</p>
+    </div>
+  ),
   // Add other data structures here
 };
 
