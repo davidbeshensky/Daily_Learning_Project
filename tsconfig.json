@@ -4,14 +4,16 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": false,  // Changed to allow output if needed
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "target": "esnext",
+    "module": "esnext",
+    "outDir": "./dist",
     "plugins": [
       {
         "name": "next"
@@ -21,6 +23,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/**/*.ts",
+    ".next/types/**/*.ts",
+    "src/scripts/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
