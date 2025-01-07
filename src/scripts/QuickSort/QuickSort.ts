@@ -25,7 +25,7 @@ function partition(arr: number[], lo: number, hi: number): number {
         }
     }
     idx++
-    arr[hi] = arr[idx];
+    arr[hi ] = arr[idx];
     arr[idx] = pivot;
 
     return idx;
